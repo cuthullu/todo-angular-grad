@@ -2,4 +2,4 @@
 
 # todo-grad-project
 
-See it deployed: https://todo-grad-project-thull.herokuapp.com/
+See it deployed: https://todo-angular-thull.herokuapp.com/
