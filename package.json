@@ -1,5 +1,5 @@
 {
-  "name": "todo-grad-project",
+  "name": "todo-angular-grad",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:joebandenburg/todo-grad-project.git"
+    "url": "git@github.com:thullSL/todo-angular-grad.git"
   },
   "author": "Joe Bandenburg <joe@bandenburg.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/joebandenburg/todo-grad-project/issues"
+    "url": "https://github.com/thullSL/todo-angular-grad/issues"
   },
-  "homepage": "https://github.com/joebandenburg/todo-grad-project",
+  "homepage": "https://github.com/thullSL/todo-angular-grad",
   "devDependencies": {
     "chai": "^2.3.0",
     "grunt": "^0.4.5",
