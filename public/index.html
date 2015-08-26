@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="TodoApp">
-    <head>
-        <meta charset="utf-8">
-        <title>TODO List</title>
-        <link href="main.css" rel="stylesheet" type="text/css">
-        <link rel="icon" type="image/ico" href="favicon.ico">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-        <script type="text/javascript" src="main.js"></script>
-    </head>
-    <body ng-controller="TodoController">
-        <header>
-            <h1>TODO List</h1>
-        </header>
+<head>
+    <meta charset="utf-8">
+    <title>TODO List</title>
+    <link href="main.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/ico" href="favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body ng-module="todoApp">
+    <header>
+        <h1>TODO List</h1>
+    </header>
+    <div class="main" ng-controller="TodoController as todo">
+
         <section>
             <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
             <ul id="todo-list">
-                <li ng-repeat="item in items">
+                <li ng-repeat="item in todo.items">
                     {{item.title}}
-                    <button ng-click="deleteClick(item.id)" >X</button>
-                    <button ng-click="toggleTodoComplete(item)" >X</button>
+                    <button ng-click="todo.deleteClick(item.id)" >X</button>
+                    <button ng-click="todo.toggleTodoComplete(item)" >X</button>
                 </li>
             </ul>
-            <form id="todo-form" ng-submit="submitForm()">
-                <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="newTodo">
+            <form id="todo-form" ng-submit="todo.submitForm()">
+                <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="todo.newTodo">
                 <input id="submit-todo" type="submit" value="Create">
             </form>
             <div id="error">{{error}}</div>
         </section>
+    </div>
+
+    <!-- Modules -->
+    <script src="js/app.js"></script>
+
+    <!-- Controllers -->
+    <script src="js/controllers/TodoController.js"></script>
+
+    <!-- Services -->
+
+    <script src="js/services/todoService.js"></script
+    <!-- Directives -->
+
     </body>
-</html>
+    </html>
