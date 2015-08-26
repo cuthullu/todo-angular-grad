@@ -17,6 +17,8 @@
             <ul id="todo-list">
                 <li ng-repeat="item in items">
                     {{item.title}}
+                    <button ng-click="deleteClick(item.id)" >X</button>
+                    <button ng-click="toggleTodoComplete(item)" >X</button>
                 </li>
             </ul>
             <form id="todo-form" ng-submit="submitForm()">
