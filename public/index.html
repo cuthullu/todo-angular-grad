@@ -11,22 +11,21 @@
     <header>
         <h1>TODO List</h1>
     </header>
-    <div class="main" ng-controller="TodoController as todo">
+    <div class="main" ng-controller="TodoController as vm">
 
         <section>
             <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
             <ul id="todo-list">
-                <li ng-repeat="item in todo.items">
-                    {{item.title}}
-                    <button ng-click="todo.deleteClick(item.id)" >X</button>
-                    <button ng-click="todo.toggleTodoComplete(item)" >X</button>
+                <li ng-repeat="item in vm.items" todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete">
+
                 </li>
             </ul>
-            <form id="todo-form" ng-submit="todo.submitForm()">
-                <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="todo.newTodo">
+            <form id="todo-form" ng-submit="vm.submitForm()">
+                <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="vm.newTodo">
                 <input id="submit-todo" type="submit" value="Create">
             </form>
             <div id="error">{{error}}</div>
+            </li>
         </section>
     </div>
 
@@ -38,8 +37,10 @@
 
     <!-- Services -->
 
-    <script src="js/services/todoService.js"></script
+    <script src="js/services/todoService.js"></script>
+
     <!-- Directives -->
+    <script src="js/directives/todoItem.js"></script>
 
     </body>
     </html>

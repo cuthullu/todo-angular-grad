@@ -1,0 +1,5 @@
+<div ng-class="{ 'complete' : item.isComplete}" class="todo">
+    {{item.title}}
+    <button ng-click="deleteTodo()" >Delete</button>
+    <button ng-click="toggleTodoComplete()" >Completed</button>
+</div>

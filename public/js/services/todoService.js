@@ -1,5 +1,5 @@
 (function() {
-    angular.module("TodoApp").factory('todoService', TodoService);
+    angular.module("TodoApp").factory("todoService", TodoService);
 
     function TodoService($http){
         var service = {
@@ -8,7 +8,7 @@
             updateTodo: updateTodo,
             deleteTodo: deleteTodo
         };
-        return service
+        return servic;
 
         ///////////////////////
 

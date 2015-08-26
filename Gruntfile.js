@@ -10,17 +10,16 @@ module.exports = function(grunt) {
     var artifactsLocation = "build_artifacts";
     grunt.initConfig({
         jshint: {
-            all: ["Gruntfile.js", "server.js", "server/**/*.js", "test/**/*.js", "public/**/*.js", "!public/js/*"],
+            all: ["Gruntfile.js", "server.js", "server/**/*.js", "test/**/*.js", "public/**/*.js", "!public/js/vendor/*"],
             options: {
-                jshintrc: true,
-                esnext : true
+                jshintrc: ".jshintrc"
             }
         },
         jscs: {
-            all: ["Gruntfile.js", "server.js", "server/**/*.js", "test/**/*.js", "public/**/*.js", "!public/js/*"],
+            all: ["Gruntfile.js", "server.js", "server/**/*.js", "test/**/*.js", "public/**/*.js", "!public/js/vendor/*"],
             options: {
                 esnext : true
-            }  
+            }
         },
         mochaTest: {
             test: {
@@ -107,9 +106,9 @@ module.exports = function(grunt) {
 
     grunt.registerTask("check", ["jshint", "jscs"]);
     grunt.registerTask("test", ["check", "mochaTest:test", "mocha_istanbul:test", "istanbul_report",
-        "istanbul_check_coverage"]);
+    "istanbul_check_coverage"]);
     grunt.registerTask("ci-test", ["check", "mochaTest:ci", "mocha_istanbul:ci", "istanbul_report",
-        "istanbul_check_coverage"]);
+    "istanbul_check_coverage"]);
     grunt.registerTask("default", "nodemon");
 
     grunt.registerTask("serve", "Start a custom web server.", function() {

@@ -1,7 +1,7 @@
 (function() {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, todoService) {
+    function TodoController( $http, todoService) {
         var vm = this;
         $http.defaults.transformRequest.push(function(config) {
             vm.loading = true;
@@ -21,22 +21,23 @@
         };
 
         vm.toggleTodoComplete = function(todo) {
-            todo.isComplete = !todo.isComplete
+            todo.isComplete = !todo.isComplete;
             todoService.updateTodo(todo).then(reloadTodoList);
-        }
+        };
 
-        vm.deleteClick = function(todoId) {
+        vm.todoDeleted = function(todoId) {
             todoService.deleteTodo(todoId).then(reloadTodoList);
-        }
+        };
 
         function reloadTodoList() {
             todoService.getTodoList().then(function(items) {
                 vm.items = items;
+                console.log(items);
             }, function(result) {
                 vm.error = "Failed to get list. Server returned " + result.status + " - " + result.data;
             });
         }
 
         reloadTodoList();
-    };
+    }
 })();
