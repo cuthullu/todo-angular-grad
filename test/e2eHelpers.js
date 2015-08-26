@@ -27,9 +27,9 @@ module.exports.setupServer = function() {
 
 module.exports.teardownServer = function(server) {
     if (gatheringCoverage) {
-        server.driver.executeScript("return __coverage__;").then(function (coverage) {
-            collector.add(coverage);
-        });
+        // server.driver.executeScript("return __coverage__;").then(function (coverage) {
+        //     collector.add(coverage);
+        // });
     }
     server.server.close();
     server.driver.quit();

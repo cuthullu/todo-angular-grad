@@ -34,7 +34,7 @@ testing.describe("end to end", function() {
             helpers.setupErrorRoute(server, "get", "/api/todo");
             helpers.navigateToSite(server);
             helpers.getErrorText(server).then(function(text) {
-                assert.equal(text, "Failed to get list. Server returned 500 - Internal Server Error");
+                assert.equal(text, "Failed to do action. Server returned 500 - Internal Server Error");
             });
         });
     });
@@ -58,7 +58,7 @@ testing.describe("end to end", function() {
             helpers.navigateToSite(server);
             helpers.addTodo(server, "New todo item");
             helpers.getErrorText(server).then(function(text) {
-                assert.equal(text, "Failed to create item. Server returned 500 - Internal Server Error");
+                assert.equal(text, "Failed to do action. Server returned 500 - Internal Server Error");
             });
         });
         testing.it("can be done multiple times", function() {
@@ -71,4 +71,3 @@ testing.describe("end to end", function() {
         });
     });
 });
-

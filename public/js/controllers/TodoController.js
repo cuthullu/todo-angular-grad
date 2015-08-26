@@ -16,7 +16,7 @@
         vm.items = [];
 
         vm.submitForm = function() {
-            todoService.createTodo(vm.newTodo).then(reloadTodoList);
+            todoService.createTodo(vm.newTodo).success(reloadTodoList).error(handleError);
             vm.newTodo = "";
         };
 
@@ -30,12 +30,14 @@
         };
 
         function reloadTodoList() {
-            todoService.getTodoList().then(function(items) {
-                vm.items = items;
-                console.log(items);
-            }, function(result) {
-                vm.error = "Failed to get list. Server returned " + result.status + " - " + result.data;
-            });
+            todoService.getTodoList().success(function(data) {
+                vm.items = data;
+            })
+            .error(handleError);
+        }
+
+        function handleError(text, status){
+            vm.error = "Failed to do action. Server returned " + status + " - " + text;
         }
 
         reloadTodoList();
