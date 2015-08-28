@@ -1,8 +1,9 @@
 (function() {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController( $http, todoService) {
+    function TodoController( $http, $rootScope, $filter, $scope, todoService) {
         var vm = this;
+        var deregisters = [];
         $http.defaults.transformRequest.push(function(config) {
             vm.loading = true;
             return config;
@@ -12,35 +13,61 @@
             return response;
         });
 
+        deregisters.push($rootScope.$on("todosChanged", reloadTodoList));
+        deregisters.push($rootScope.$on("errorResponse", handleError));
+        $scope.$on("$destroy", destroyThis);
+
         vm.loading = false;
         vm.items = [];
 
         vm.submitForm = function() {
-            todoService.createTodo(vm.newTodo).success(reloadTodoList).error(handleError);
+            todoService.createTodo(vm.newTodo);
             vm.newTodo = "";
         };
 
         vm.toggleTodoComplete = function(todo) {
             todo.isComplete = !todo.isComplete;
-            todoService.updateTodo(todo).success(reloadTodoList).error(handleError);
+            todoService.updateTodo(todo);
         };
 
         vm.todoDeleted = function(todoId) {
-            todoService.deleteTodo(todoId).success(reloadTodoList).error(handleError);
+            todoService.deleteTodo(todoId);
         };
 
         function reloadTodoList() {
             todoService.getTodoList().success(function(data) {
-                vm.items = data;
-            })
-            .error(handleError);
+                data.forEach(function(newTodo) {
+                    if ($filter('filter')(vm.items, newTodo).length > 0 ) {
+                        return;
+                    }else if($filter('filter')(vm.items, {id : newTodo.id}).length > 0 ) {
+                        var oldTodo = $filter('filter')(vm.items, {id : newTodo.id})[0];
+                        var index = vm.items.indexOf(oldTodo);
+                        vm.items[index] = newTodo;
+                    }else{
+                        vm.items.push(newTodo);
+                    }
+
+                });
+                vm.items = vm.items.filter(function(oldTodo) {
+                    return $filter('filter')(data, {id : oldTodo.id}).length > 0 
+                });
+            });
         }
 
-        function handleError(text, status){
+        function handleError(event, text, status){
             vm.error = "Failed to do action. Server returned " + status + " - " + text;
         }
 
-        setInterval(reloadTodoList, 1000);
+        function destroyThis(){
+            deregisters.forEach(function(eventDereg) { eventDereg();});
+        }
+
+        vm.onDropComplete = function (index, obj, evt) {
+            var otherObj = vm.items[index];
+            var otherIndex = vm.items.indexOf(obj);
+            vm.items[index] = obj;
+            vm.items[otherIndex] = otherObj;
+        }
 
         reloadTodoList();
     }

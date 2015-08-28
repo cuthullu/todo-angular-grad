@@ -9,6 +9,7 @@
     <link href="main.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/ico" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+    <script src="js/vendor/ngDraggable.js"></script>
 </head>
 <body ng-module="todoApp">
     <header>
@@ -18,15 +19,34 @@
 
         <section>
             <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
-            <div id="todo-list" class="todoContainer">
-                <div ng-repeat="item in vm.items" todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete" class="todoBox panel panel-default">
-
+            
+            <div id="todo-list" class="todoContainer draglist">
+                <div class="" ng-repeat="item in vm.items | filter:myFilter" ng-drop="true" ng-drop-success="vm.onDropComplete($index, $data,$event)">
+                    <div ng-drag="true" ng-drag-data="item" ng-class="item.title">
+                        
+                        <div class="todoBox panel panel-default">
+                            <todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete"></todo-item>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+
             <form id="todo-form" ng-submit="vm.submitForm()">
                 <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="vm.newTodo">
                 <input id="submit-todo" type="submit" value="Create">
             </form>
+            <div class="todosLeft" >
+            You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do
+            </div>
+            <div class="filter" > 
+            <select ng-model="myFilter.isComplete">
+                <option value="">All</option>
+                <option value="true">Completed</option>
+                <option value="false">Outstanding</option>
+            </select>
+            </div>
             <div id="error">{{vm.error}}</div>
             </li>
         </section>
