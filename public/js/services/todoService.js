@@ -2,7 +2,6 @@
     angular.module("TodoApp").factory("todoService", TodoService);
 
     function TodoService($http){
-        var items = [];
         var lastActionID = 0;
         var service = {
             createTodo : createTodo,
@@ -25,21 +24,11 @@
         }
 
         function updateTodo(todo) {
-            if(items.length < 1) {
-                return $http.put("/api/todo/" + todo.id, todo)
-                .then(null, function(result) {
-                    vm.error = "Failed to update item. Server returned " + result.status + " - " + result.data;
-                });
-            }else{
-                //return $http.get("/api/changes")
-            }
+            return $http.put("/api/todo/" + todo.id, todo);
         }
 
         function deleteTodo(todoId) {
-            return $http.delete("/api/todo/" + todoId)
-            .then(null, function(result) {
-                vm.error = "Failed to delte item. Server returned " + result.status + " - " + result.data;
-            });
+            return $http.delete("/api/todo/" + todoId);
         }
 
     }

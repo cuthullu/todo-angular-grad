@@ -22,11 +22,11 @@
 
         vm.toggleTodoComplete = function(todo) {
             todo.isComplete = !todo.isComplete;
-            todoService.updateTodo(todo).then(reloadTodoList);
+            todoService.updateTodo(todo).success(reloadTodoList).error(handleError);
         };
 
         vm.todoDeleted = function(todoId) {
-            todoService.deleteTodo(todoId).then(reloadTodoList);
+            todoService.deleteTodo(todoId).success(reloadTodoList).error(handleError);
         };
 
         function reloadTodoList() {
@@ -39,6 +39,8 @@
         function handleError(text, status){
             vm.error = "Failed to do action. Server returned " + status + " - " + text;
         }
+
+        setInterval(reloadTodoList, 1000)
 
         reloadTodoList();
     }
