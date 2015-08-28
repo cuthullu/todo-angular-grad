@@ -22,10 +22,10 @@
             
             <div id="todo-list" class="todoContainer draglist">
                 <div class="" ng-repeat="item in vm.items | filter:myFilter" ng-drop="true" ng-drop-success="vm.onDropComplete($index, $data,$event)">
-                    <div ng-drag="true" ng-drag-data="item" ng-class="item.title">
-                        
+                    <div ng-drag="true" ng-drag-data="item" ng-class="item.title">   
                         <div class="todoBox panel panel-default">
-                            <todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete"></todo-item>
+                            <span ng-drag-handle class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            <todo-item item="item" on-delete="vm.todoDeleted" on-update="vm.toggleTodoComplete"></todo-item>
                         </div>
                     </div>
                 </div>
