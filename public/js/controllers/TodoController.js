@@ -51,6 +51,7 @@
                 vm.items = vm.items.filter(function(oldTodo) {
                     return $filter('filter')(data, {id : oldTodo.id}).length > 0 
                 });
+            });
         }
 
         function handleError(event, text, status){
