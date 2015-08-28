@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>TODO List</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <script src="js/vendor/jquery.js" ></script>
+    <script src="js/vendor/bootstrap.js" ></script>
     <link href="main.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/ico" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
@@ -15,11 +18,11 @@
 
         <section>
             <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
-            <ul id="todo-list">
-                <li ng-repeat="item in vm.items" todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete">
+            <div id="todo-list" class="todoContainer">
+                <div ng-repeat="item in vm.items" todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete" class="todoBox panel panel-default">
 
-                </li>
-            </ul>
+                </div>
+            </div>
             <form id="todo-form" ng-submit="vm.submitForm()">
                 <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="vm.newTodo">
                 <input id="submit-todo" type="submit" value="Create">

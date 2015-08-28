@@ -27,3 +27,12 @@ h1 {
 .complete{
     text-decoration: line-through;
 }
+.todoContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.todoBox{
+    padding: 40px;
+    margin: 10px;
+}
