@@ -40,7 +40,7 @@
             vm.error = "Failed to do action. Server returned " + status + " - " + text;
         }
 
-        setInterval(reloadTodoList, 1000)
+        setInterval(reloadTodoList, 1000);
 
         reloadTodoList();
     }
