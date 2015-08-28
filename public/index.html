@@ -16,7 +16,7 @@
         <section>
             <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
             <ul id="todo-list">
-                <li ng-repeat="item in vm.items" todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete">
+                <li ng-repeat="item in vm.items | filter:myFilter" todo-item item="item" on-delete="vm.todoDeleted" on-done="vm.toggleTodoComplete">
 
                 </li>
             </ul>
@@ -24,6 +24,16 @@
                 <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="vm.newTodo">
                 <input id="submit-todo" type="submit" value="Create">
             </form>
+            <div class="todosLeft" >
+            You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do
+            </div>
+            <div class="filter" > 
+            <select ng-model="myFilter.isComplete">
+                <option value="">All</option>
+                <option value="true">Completed</option>
+                <option value="false">Outstanding</option>
+            </select>
+            </div>
             <div id="error">{{vm.error}}</div>
             </li>
         </section>
