@@ -1,8 +1,9 @@
 (function() {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController( $http, todoService) {
+    function TodoController( $http, $rootScope, $scope, todoService) {
         var vm = this;
+        var deregisters = [];
         $http.defaults.transformRequest.push(function(config) {
             vm.loading = true;
             return config;
@@ -12,35 +13,40 @@
             return response;
         });
 
+        deregisters.push($rootScope.$on("todosChanged", reloadTodoList));
+        deregisters.push($rootScope.$on("errorResponse", handleError));
+        $scope.$on("$destroy", destroyThis);
+
         vm.loading = false;
         vm.items = [];
 
         vm.submitForm = function() {
-            todoService.createTodo(vm.newTodo).success(reloadTodoList).error(handleError);
+            todoService.createTodo(vm.newTodo);
             vm.newTodo = "";
         };
 
         vm.toggleTodoComplete = function(todo) {
             todo.isComplete = !todo.isComplete;
-            todoService.updateTodo(todo).success(reloadTodoList).error(handleError);
+            todoService.updateTodo(todo);
         };
 
         vm.todoDeleted = function(todoId) {
-            todoService.deleteTodo(todoId).success(reloadTodoList).error(handleError);
+            todoService.deleteTodo(todoId);
         };
 
         function reloadTodoList() {
             todoService.getTodoList().success(function(data) {
                 vm.items = data;
-            })
-            .error(handleError);
+            });
         }
 
-        function handleError(text, status){
+        function handleError(event, text, status){
             vm.error = "Failed to do action. Server returned " + status + " - " + text;
         }
 
-        setInterval(reloadTodoList, 1000);
+        function destroyThis(){
+            deregisters.forEach(function(eventDereg) { eventDereg();});
+        }
 
         reloadTodoList();
     }
