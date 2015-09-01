@@ -1,7 +1,7 @@
 (function() {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController( $http, $rootScope, $filter, $scope, todoService) {
+    function TodoController( $http, $rootScope, $filter, $localStorage, $scope,todoService) {
         var vm = this;
         var deregisters = [];
         $http.defaults.transformRequest.push(function(config) {
@@ -35,6 +35,13 @@
             todoService.deleteTodo(todoId);
         };
 
+        function getTodoList(){
+            if($localStorage.items !== undefined){
+                vm.items = $localStorage.items;
+            }
+            reloadTodoList();
+        }
+
         function reloadTodoList() {
             todoService.getTodoList().success(function(data) {
                 data.forEach(function(newTodo) {
@@ -52,6 +59,8 @@
                 vm.items = vm.items.filter(function(oldTodo) {
                     return $filter("filter")(data, {id : oldTodo.id}).length > 0;
                 });
+
+                $localStorage.items = vm.items;
             });
         }
 
@@ -69,6 +78,6 @@
             vm.items[index] = obj;
             vm.items[otherIndex] = otherObj;
         };
-        reloadTodoList();
+        getTodoList();
     }
 })();

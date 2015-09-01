@@ -1,1 +1,1 @@
-angular.module("TodoApp", ["ngDraggable"]);
+angular.module("TodoApp", ["ngDraggable", "ngStorage"]);
