@@ -1,0 +1,114 @@
+@import "materialize";
+body {
+    background: #E8F5E9;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: sans-serif;
+    margin: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    padding: 0.5em 1em;
+}
+
+section,
+h1 {
+    max-width: 1170px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    display: block;
+    font-size: 34px;
+    line-height: 34px;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.complete{
+    text-decoration: line-through;
+}
+.todoContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /*justify-content:space-between;*/
+}
+
+[ng-drag] {
+    /*background-color: blue;*/
+}
+
+[ng-drop].drag-enter {
+   /* @extend .darken-1;*/
+    
+}
+
+[ng-drop].drag-enter .inner-item {
+     @extend .z-depth-5;
+    
+}
+
+[ng-drag].dragging {
+    @extend .lighten-3;
+     @extend .z-depth-5;
+}
+
+.inner-item{
+    margin: 1rem 1rem 1rem 1rem;
+    height: 300px;
+    -webkit-transform: rotate((random(10) -5)deg);
+/*  -moz-transform: rotate(2.5deg);
+  -ms-transform: rotate(2.5deg);
+  -o-transform: rotate(2.5deg);
+  transform: rotate(2.5deg);*/
+}
+.outer-item{
+    min-width: 30%;
+    min-height: 300px
+}
+[ng-drag] {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+[ng-drag-handle]{
+    cursor: move;
+}
+
+@media screen and (max-width: 750px) {
+  body > h1 { font-size: 3rem; }
+  .todoContainer { 
+    -ms-flex-direction: column;
+    -webkit-box-orient: vertical;
+    flex-direction: column; 
+  }
+}
+
+.todoBox{
+    background: transparent;
+    height: 90%;
+
+}
+
+.todo{
+    display: flex;
+    align-items:center;
+    flex-direction: column; 
+    justify-content: center;
+    height: inherit;
+}
+todo-item{
+    height: inherit;
+}
+.todo-action-buttons{
+    /*align-self:flex-end;*/
+}
+
+.todo-text{
+    flex-grow:3;
+}
