@@ -6,16 +6,18 @@
             scope: {
                 onUpdate: "=",
                 onDelete: "=",
-                item: "="
-
+                item: "=",
             },
             link: linker,
             templateUrl: "js/directives/todoItem.html"
         };
         return directive;
 
-        function linker(scope, element) {
+        function linker(scope, element, attrs, formCtrl) {
             scope.edit = false;
+            scope.tempTitle = scope.item.title;
+            scope.invalid = false;
+            scope.error = "";
             scope.deleteTodo = function(){
                 scope.onDelete(scope.item.id);
             };
@@ -35,10 +37,17 @@
                 }, 0);
             };
 
-            scope.submitForm = function(e) {
-                scope.edit = false;
-                scope.item.title = e.tempTitle;
-                scope.onUpdate(scope.item);
+            scope.submitForm = function() {
+                if(scope.tempTitle !== undefined ){
+                    scope.edit = false;
+                    scope.item.title = scope.tempTitle;
+                    scope.onUpdate(scope.item);
+                    scope.invalid = false; 
+                }else{
+                    scope.invalid = true;
+                    scope.error = "Title is too short";
+                }
+                
 
             };
             scope.uneditTitle = function() {
