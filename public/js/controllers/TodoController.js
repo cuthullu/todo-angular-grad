@@ -21,8 +21,10 @@
         vm.items = [];
 
         vm.submitForm = function() {
-            todoService.createTodo(vm.newTodo);
-            vm.newTodo = "";
+            if(vm.newTodoForm.$valid) {
+                todoService.createTodo(vm.newTodo);
+                vm.newTodo = "";
+            }
         };
 
         vm.todoUpdated = function(todo) {

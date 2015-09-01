@@ -31,9 +31,10 @@
                 </div>
             </div>
 
-            <form id="todo-form" ng-submit="vm.submitForm()">
-                <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="vm.newTodo">
-                <input id="submit-todo" type="submit" value="Create">
+            <form id="todo-form" ng-submit="vm.submitForm()" name="vm.newTodoForm">
+                <input id="new-todo" name="title" placeholder="What needs to be done?" autofocus ng-required="true" ng-minlength="5" ng-model="vm.newTodo">
+                <p ng-show="vm.newTodoForm.title.$error.minlength" class="help-block">Titleis too short.</p>
+                <input id="submit-todo" class="btn btn-primary" type="submit" value="Create" ng-disabled="vm.newTodoForm.$invalid">
             </form>
             <div class="todosLeft" >
             You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do
@@ -62,7 +63,6 @@
 
     <!-- Directives -->
     <script src="js/directives/todoItem.js"></script>
-    <script src="js/directives/onLoad.js"></script>
 
     </body>
     </html>
