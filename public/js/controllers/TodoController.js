@@ -69,6 +69,10 @@
             vm.items[index] = obj;
             vm.items[otherIndex] = otherObj;
         };
+
+        vm.onDragComplete=function(data,evt){
+           console.log("drag success, data:", data);
+        }
         reloadTodoList();
     }
 })();

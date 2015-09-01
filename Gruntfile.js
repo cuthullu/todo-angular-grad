@@ -5,6 +5,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-mocha-istanbul");
     grunt.loadNpmTasks("grunt-serve");
     grunt.loadNpmTasks("grunt-nodemon");
+    grunt.loadNpmTasks("grunt-sass");
+    grunt.loadNpmTasks("grunt-contrib-watch");
 
     var testOutputLocation = process.env.CIRCLE_TEST_REPORTS || "test_output";
     var artifactsLocation = "build_artifacts";
@@ -80,10 +82,27 @@ module.exports = function(grunt) {
             all: {
                 script: "server.js",
                 options : {
-                    ignore : ["public/"]
+                    ignore : ["public/", "Gruntfile.js"]
                 }
             }
+        },
+        sass: {
+            options: {
+                sourceMap: true
+            },
+            dist: {
+                files: {
+                    'public/css/main.css': 'sass/main.scss'
+                }
+            }
+        },
+        watch: {
+            css: {
+                files: 'sass/*.scss',
+                tasks: ['sassy']
+            }
         }
+
     });
 
     grunt.registerMultiTask("istanbul_report", "Solo task for generating a report over multiple files.", function () {
@@ -110,6 +129,8 @@ module.exports = function(grunt) {
     grunt.registerTask("ci-test", ["check", "mochaTest:ci", "mocha_istanbul:ci", "istanbul_report",
     "istanbul_check_coverage"]);
     grunt.registerTask("default", "nodemon");
+    grunt.registerTask('watchsass', ['watch']);
+    grunt.registerTask('sassy', ['sass']);
 
     grunt.registerTask("serve", "Start a custom web server.", function() {
         var done = this.async();
