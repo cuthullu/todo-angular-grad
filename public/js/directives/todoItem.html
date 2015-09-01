@@ -1,9 +1,8 @@
 <div ng-class="{ 'complete' : item.isComplete}" class="todo">
 	<div ng-switch on="edit">
 		<div ng-switch-when="true">
-			<form id="todo-form" ng-submit="submitForm()">
-                <input id="new-todo" placeholder="What needs to be done?" autofocus ng-model="item.title">
-                <!-- <input id="submit-todo" type="submit" value="Uodate"> -->
+			<form id="todo-form" ng-submit="submitForm(this)">
+                <input ng-blur="uneditTitle()"  placeholder="What needs to be done?" autofocus id="titleInput" ng-model="tempTitle" autofocus>
             </form>
 		</div>
 		<div ng-switch-default>

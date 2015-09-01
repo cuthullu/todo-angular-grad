@@ -7,6 +7,7 @@
                 onUpdate: "=",
                 onDelete: "=",
                 item: "="
+
             },
             link: linker,
             templateUrl: "js/directives/todoItem.html"
@@ -20,19 +21,30 @@
             };
 
             scope.toggleTodoComplete = function() {
-
+                scope.item.isComplete = !scope.item.isComplete;
                 scope.onUpdate(scope.item);
             };
 
             scope.editTitle = function() {
                 scope.edit = true;
-            }
 
-            scope.submitForm = function() {
+                setTimeout(function(){
+                    scope.$apply(function(){
+                        element.find("#titleInput")[0].focus();
+                    });
+                }, 0);
+            };
+
+            scope.submitForm = function(e) {
                 scope.edit = false;
+                scope.item.title = e.tempTitle;
                 scope.onUpdate(scope.item);
 
-            }
+            };
+            scope.uneditTitle = function() {
+                scope.edit = false;
+
+            };
         }
     }
 })();

@@ -62,7 +62,7 @@ module.exports.getErrorText = function(server) {
 module.exports.getTodoList = function(server) {
     var todoListPlaceholder = server.driver.findElement(webdriver.By.id("todo-list-placeholder"));
     server.driver.wait(webdriver.until.elementIsNotVisible(todoListPlaceholder), 5000);
-    return server.driver.findElements(webdriver.By.css("#todo-list li"));
+    return server.driver.findElements(webdriver.By.css("#todo-list todo-item"));
 };
 
 module.exports.addTodo = function(server, text) {

@@ -25,8 +25,7 @@
             vm.newTodo = "";
         };
 
-        vm.toggleTodoComplete = function(todo) {
-            todo.isComplete = !todo.isComplete;
+        vm.todoUpdated = function(todo) {
             todoService.updateTodo(todo);
         };
 
@@ -37,10 +36,10 @@
         function reloadTodoList() {
             todoService.getTodoList().success(function(data) {
                 data.forEach(function(newTodo) {
-                    if ($filter('filter')(vm.items, newTodo).length > 0 ) {
+                    if ($filter("filter")(vm.items, newTodo).length > 0 ) {
                         return;
-                    }else if($filter('filter')(vm.items, {id : newTodo.id}).length > 0 ) {
-                        var oldTodo = $filter('filter')(vm.items, {id : newTodo.id})[0];
+                    }else if($filter("filter")(vm.items, {id : newTodo.id}).length > 0 ) {
+                        var oldTodo = $filter("filter")(vm.items, {id : newTodo.id})[0];
                         var index = vm.items.indexOf(oldTodo);
                         vm.items[index] = newTodo;
                     }else{
@@ -49,7 +48,7 @@
 
                 });
                 vm.items = vm.items.filter(function(oldTodo) {
-                    return $filter('filter')(data, {id : oldTodo.id}).length > 0 
+                    return $filter("filter")(data, {id : oldTodo.id}).length > 0;
                 });
             });
         }
@@ -67,7 +66,7 @@
             var otherIndex = vm.items.indexOf(obj);
             vm.items[index] = obj;
             vm.items[otherIndex] = otherObj;
-        }
+        };
         reloadTodoList();
     }
 })();
