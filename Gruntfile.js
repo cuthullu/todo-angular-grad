@@ -92,14 +92,14 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'public/css/main.css': 'sass/main.scss'
+                    "public/css/main.css": "sass/main.scss"
                 }
             }
         },
         watch: {
             css: {
-                files: 'sass/*.scss',
-                tasks: ['sassy']
+                files: "sass/*.scss",
+                tasks: ["sassy"]
             }
         }
 
@@ -129,8 +129,8 @@ module.exports = function(grunt) {
     grunt.registerTask("ci-test", ["check", "mochaTest:ci", "mocha_istanbul:ci", "istanbul_report",
     "istanbul_check_coverage"]);
     grunt.registerTask("default", "nodemon");
-    grunt.registerTask('watchsass', ['watch']);
-    grunt.registerTask('sassy', ['sass']);
+    grunt.registerTask("watchsass", ["watch"]);
+    grunt.registerTask("sassy", ["sass"]);
 
     grunt.registerTask("serve", "Start a custom web server.", function() {
         var done = this.async();
