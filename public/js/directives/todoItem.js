@@ -1,7 +1,7 @@
-(function(){
+(function () {
     angular.module("TodoApp").directive("todoItem", todoItem);
 
-    function todoItem(){
+    function todoItem(customYesNoModal) {
         var directive = {
             scope: {
                 onUpdate: "=",
@@ -13,46 +13,20 @@
         };
         return directive;
 
-        function linker(scope, element) {
-            scope.edit = false;
-            scope.tempTitle = scope.item.title;
-            scope.invalid = false;
-            scope.error = "";
-            scope.deleteTodo = function(){
+        function linker(scope) {
+
+            scope.deleteTodo = function () {
                 scope.onDelete(scope.item);
             };
 
-            scope.toggleTodoComplete = function() {
+            scope.toggleTodoComplete = function () {
                 scope.item.isComplete = !scope.item.isComplete;
                 scope.onUpdate(scope.item);
             };
 
-            scope.editTitle = function() {
-                scope.edit = true;
-
-                setTimeout(function(){
-                    scope.$apply(function(){
-                        element.find("#titleInput")[0].focus();
-                    });
-                }, 0);
-            };
-
-            scope.submitForm = function() {
-                if(scope.tempTitle !== undefined ){
-                    scope.edit = false;
-                    scope.item.title = scope.tempTitle;
-                    scope.onUpdate(scope.item);
-                    scope.invalid = false; 
-                }else{
-                    scope.invalid = true;
-                    scope.error = "Title is too short";
-                }
-                
-
-            };
-            scope.uneditTitle = function() {
-                scope.edit = false;
-
+            scope.editTitle = function (item, $event) {
+                customYesNoModal(item, "js/directives/editModal.html", "EditModelController", $event)
+                    .then(scope.onUpdate);
             };
         }
     }

@@ -7,13 +7,10 @@
     <link rel="icon" type="image/ico" href="favicon.ico">
     <link href="css/main.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/bootstrap.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-    <script type="text/javascript" src="js/vendor/materialize.min.js"></script>
-    <script src="js/vendor/ngDraggable.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 </head>
 <body ng-module="todoApp">
 <header>
@@ -65,18 +62,35 @@
     </section>
 </div>
 
+<!--External Modules-->
+<script src="js/vendor/bootstrap.min.js"></script>
+
+
+<!-- Angular Material Dependencies -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-aria.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
+
+<script src="js/vendor/ngDraggable.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
+
+
 <!-- Modules -->
 <script src="js/app.js"></script>
 
 <!-- Controllers -->
 <script src="js/controllers/TodoController.js"></script>
+<script src="js/controllers/EditModalController.js"></script>
 
 <!-- Services -->
-
 <script src="js/services/todoService.js"></script>
+<script src="js/services/customYesNoModal.js"></script>
 
 <!-- Directives -->
 <script src="js/directives/todoItem.js"></script>
+
 
 </body>
 </html>

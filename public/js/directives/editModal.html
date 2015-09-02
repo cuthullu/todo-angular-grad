@@ -1,0 +1,14 @@
+<md-dialog aria-label="Edit dialog">
+    <md-dialog-content>
+        <label for="titleInput">Edit Your Todo</label><textarea id="titleInput" autofocus ng-model="tempTitle"
+        ng-required="true" ng-minlength="5" class="editing-text-area">{{item.title}}</textarea>
+    </md-dialog-content>
+    <div class="md-actions">
+        <md-button ng-click="confirmDialog()" class="md-primary">
+           Confirm
+        </md-button>
+        <md-button ng-click="cancelDialog()" class="md-primary">
+            Cancel
+        </md-button>
+    </div>
+</md-dialog>
