@@ -1,14 +1,14 @@
-(function() {
+(function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController( $http, $rootScope, $filter, $localStorage, $scope,todoService) {
+    function TodoController($http, $rootScope, $filter, $localStorage, $scope, todoService) {
         var vm = this;
         var deregisters = [];
-        $http.defaults.transformRequest.push(function(config) {
+        $http.defaults.transformRequest.push(function (config) {
             vm.loading = true;
             return config;
         });
-        $http.defaults.transformResponse.push(function(response) {
+        $http.defaults.transformResponse.push(function (response) {
             vm.loading = false;
             return response;
         });
@@ -20,59 +20,62 @@
         vm.loading = false;
         vm.items = [];
 
-        vm.submitForm = function() {
-            if(vm.newTodoForm.$valid) {
+        vm.submitForm = function () {
+            /** @namespace vm.newTodoForm */
+            if (vm.newTodoForm.$valid) {
                 todoService.createTodo(vm.newTodo);
                 vm.newTodo = "";
             }
         };
 
-        vm.todoUpdated = function(todo) {
+        vm.todoUpdated = function (todo) {
             todoService.updateTodo(todo);
         };
 
-        vm.todoDeleted = function(todoId) {
+        vm.todoDeleted = function (todoId) {
             todoService.deleteTodo(todoId);
         };
 
-        function getTodoList(){
-            if($localStorage.items !== undefined){
+        function getTodoList() {
+            if ($localStorage.items !== undefined) {
                 vm.items = $localStorage.items;
             }
             reloadTodoList();
         }
 
         function reloadTodoList() {
-            todoService.getTodoList().success(function(data) {
-                data.forEach(function(newTodo) {
-                    if ($filter("filter")(vm.items, newTodo).length > 0 ) {
-                        return;
-                    }else if($filter("filter")(vm.items, {id : newTodo.id}).length > 0 ) {
-                        var oldTodo = $filter("filter")(vm.items, {id : newTodo.id})[0];
+            todoService.getTodoList().success(function (data) {
+                data.forEach(function (newTodo) {
+                    if ($filter("filter")(vm.items, newTodo).length > 0) {
+                        //   do nothing, it there and it matches
+                    } else if ($filter("filter")(vm.items, {id: newTodo.id}).length > 0) {
+                        var oldTodo = $filter("filter")(vm.items, {id: newTodo.id})[0];
                         var index = vm.items.indexOf(oldTodo);
                         vm.items[index] = newTodo;
-                    }else{
+                    } else {
                         vm.items.push(newTodo);
                     }
 
                 });
-                vm.items = vm.items.filter(function(oldTodo) {
-                    return $filter("filter")(data, {id : oldTodo.id}).length > 0;
+                vm.items = vm.items.filter(function (oldTodo) {
+                    return $filter("filter")(data, {id: oldTodo.id}).length > 0;
                 });
 
                 $localStorage.items = vm.items;
             });
         }
 
-        function handleError(event, text, status){
+        function handleError(event, text, status) {
             vm.error = "Failed to do action. Server returned " + status + " - " + text;
         }
 
-        function destroyThis(){
-            deregisters.forEach(function(eventDereg) { eventDereg();});
+        function destroyThis() {
+            deregisters.forEach(function (eventDereg) {
+                eventDereg();
+            });
         }
 
-        vm.onDropComplete = function (index, obj, evt) {
+        vm.onDropComplete = function (index, obj) {
             var otherObj = vm.items[index];
             var otherIndex = vm.items.indexOf(obj);
             vm.items[index] = obj;

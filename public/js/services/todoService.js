@@ -2,7 +2,6 @@
     angular.module("TodoApp").factory("todoService", TodoService);
 
     function TodoService($http, $rootScope){
-        var lastActionID = 0;
         var service = {
             createTodo : createTodo,
             getTodoList: getTodoList,

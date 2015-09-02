@@ -6,14 +6,14 @@
             scope: {
                 onUpdate: "=",
                 onDelete: "=",
-                item: "=",
+                item: "="
             },
             link: linker,
             templateUrl: "js/directives/todoItem.html"
         };
         return directive;
 
-        function linker(scope, element, attrs, formCtrl) {
+        function linker(scope, element) {
             scope.edit = false;
             scope.tempTitle = scope.item.title;
             scope.invalid = false;

@@ -20,13 +20,16 @@
         <h1>TODO List</h1>
     </header>
     <div class="main" ng-controller="TodoController as vm">
-         <div class="filter" > 
-            <select ng-model="myFilter.isComplete" class="browser-default " >
-                <option value="">All</option>
-                <option value="true">Completed</option>
-                <option value="false">Outstanding</option>
-            </select>
-        </div>
+         <div class="filter" >
+             <label>
+                 Filter
+                 <select ng-model="myFilter.isComplete" class="browser-default ">
+                     <option value="">All</option>
+                     <option value="true">Completed</option>
+                     <option value="false">Outstanding</option>
+                 </select>
+             </label>
+         </div>
         <section>
             <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
             
