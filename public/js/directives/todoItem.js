@@ -19,7 +19,7 @@
             scope.invalid = false;
             scope.error = "";
             scope.deleteTodo = function(){
-                scope.onDelete(scope.item.id);
+                scope.onDelete(scope.item);
             };
 
             scope.toggleTodoComplete = function() {

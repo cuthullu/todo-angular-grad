@@ -8,69 +8,75 @@
     <link href="css/main.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <script src="js/vendor/jquery.js" ></script>
-    <script src="js/vendor/bootstrap.js" ></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/bootstrap.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
     <script type="text/javascript" src="js/vendor/materialize.min.js"></script>
     <script src="js/vendor/ngDraggable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 </head>
 <body ng-module="todoApp">
-    <header>
-        <h1>TODO List</h1>
-    </header>
-    <div class="main" ng-controller="TodoController as vm">
-         <div class="filter" >
-             <label>
-                 Filter
-                 <select ng-model="myFilter.isComplete" class="browser-default ">
-                     <option value="">All</option>
-                     <option value="true">Completed</option>
-                     <option value="false">Outstanding</option>
-                 </select>
-             </label>
-         </div>
-        <section>
-            <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
-            
-            <div id="todo-list" class="todoContainer draglist">
-                <div class="outer-item green lighten-4" ng-repeat="item in vm.items | filter:myFilter" ng-drop="true"  ng-drop-success="vm.onDropComplete($index, $data,$event)">
-                    <div ng-drag="true" ng-drag-data="item" ng-class="item.title" class="red  z-depth-1 inner-item">   
-                        <div class="todoBox">
-                            <span ng-drag-handle class="glyphicon glyphicon-move" aria-hidden="true"></span>
-                            <todo-item item="item" on-delete="vm.todoDeleted" on-update="vm.todoUpdated"></todo-item>
-                        </div>
+<header>
+    <h1>TODO List</h1>
+</header>
+<div class="main" ng-controller="TodoController as vm">
+    <div class="filter">
+        <label>
+            Filter
+            <select ng-model="myFilter.isComplete" class="browser-default ">
+                <option value="">All</option>
+                <option value="true">Completed</option>
+                <option value="false">Outstanding</option>
+            </select>
+        </label>
+    </div>
+    <div class="delete-completed">
+        <input type="button" class="btn btn-danger" ng-click="vm.todoCompleteDeleted()" value="Delete Completed">
+    </div>
+    <section>
+        <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
+
+        <div id="todo-list" class="todoContainer draglist">
+            <div class="outer-item green lighten-4" ng-repeat="item in vm.items | filter:myFilter" ng-drop="true"
+                 ng-drop-success="vm.onDropComplete($index, $data,$event)">
+                <div ng-drag="true" ng-drag-data="item" ng-class="item.title" class="red  z-depth-1 inner-item">
+                    <div class="todoBox">
+                        <span ng-drag-handle class="glyphicon glyphicon-move" aria-hidden="true"></span>
+                        <todo-item item="item" on-delete="vm.todoDeleted" on-update="vm.todoUpdated"></todo-item>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <form id="todo-form" ng-submit="vm.submitForm()" name="vm.newTodoForm">
-                <input id="new-todo" name="title" placeholder="What needs to be done?" autofocus ng-required="true" ng-minlength="1" ng-model="vm.newTodo">
-                <p ng-show="vm.newTodoForm.title.$error.minlength" class="help-block">Title is too short.</p>
-                <input id="submit-todo" class="btn btn-primary" type="submit" value="Create" ng-disabled="vm.newTodoForm.$invalid">
-            </form>
-            <div class="todosLeft" >
+        <form id="todo-form" ng-submit="vm.submitForm()" name="vm.newTodoForm">
+            <input id="new-todo" name="title" placeholder="What needs to be done?" autofocus ng-required="true"
+                   ng-minlength="1" ng-model="vm.newTodo">
+
+            <p ng-show="vm.newTodoForm.title.$error.minlength" class="help-block">Title is too short.</p>
+            <input id="submit-todo" class="btn btn-primary" type="submit" value="Create"
+                   ng-disabled="vm.newTodoForm.$invalid">
+        </form>
+        <div class="todosLeft">
             You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do
-            </div>
-            <br />
-           
-            <div id="error">{{vm.error}}</div>
-            </li>
-        </section>
-    </div>
+        </div>
+        <br/>
 
-    <!-- Modules -->
-    <script src="js/app.js"></script>
+        <div id="error">{{vm.error}}</div>
+    </section>
+</div>
 
-    <!-- Controllers -->
-    <script src="js/controllers/TodoController.js"></script>
+<!-- Modules -->
+<script src="js/app.js"></script>
 
-    <!-- Services -->
+<!-- Controllers -->
+<script src="js/controllers/TodoController.js"></script>
 
-    <script src="js/services/todoService.js"></script>
+<!-- Services -->
 
-    <!-- Directives -->
-    <script src="js/directives/todoItem.js"></script>
+<script src="js/services/todoService.js"></script>
 
-    </body>
-    </html>
+<!-- Directives -->
+<script src="js/directives/todoItem.js"></script>
+
+</body>
+</html>

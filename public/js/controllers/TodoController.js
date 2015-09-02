@@ -32,8 +32,12 @@
             todoService.updateTodo(todo);
         };
 
-        vm.todoDeleted = function (todoId) {
-            todoService.deleteTodo(todoId);
+        vm.todoDeleted = function (todo) {
+            todoService.deleteTodo(todo.id);
+        };
+
+        vm.todoCompleteDeleted = function(){
+            $filter("filter")(vm.items, {isComplete: true}).forEach(vm.todoDeleted);
         };
 
         function getTodoList() {
