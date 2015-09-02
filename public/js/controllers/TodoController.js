@@ -20,6 +20,16 @@
         vm.loading = false;
         vm.items = [];
 
+        vm.sortableOptions = {
+            placeholder: "app",
+            activate: function(x,y){
+                y.item.addClass("dragging");
+            },
+            deactivate: function(x,y){
+                y.item.removeClass("dragging");
+            }
+        };
+
         vm.submitForm = function () {
             /** @namespace vm.newTodoForm */
             if (vm.newTodoForm.$valid) {
