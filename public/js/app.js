@@ -1,1 +1,1 @@
-angular.module("TodoApp", ["ngDraggable", "ngStorage", "ngMaterial", "ngAnimate", "ui.sortable"]);
+angular.module("TodoApp", [ "ngStorage", "ngMaterial", "ngAnimate", "ui.sortable"]);

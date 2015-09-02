@@ -37,7 +37,7 @@
 
 
         <div ui-sortable="vm.sortableOptions" ng-model="vm.items" class="todoContainer" id="todo-list">
-            <md-card ng-repeat="item in vm.items" class="todoItemContainer">
+            <md-card ng-repeat="item in vm.items  | filter:myFilter" class="todoItemContainer">
                 <todo-item item="item" on-delete="vm.todoDeleted" on-update="vm.todoUpdated"></todo-item>
             </md-card>
         </div>
