@@ -1,21 +1,13 @@
 <div ng-class="{ 'complete' : item.isComplete}" class="todo">
-    <div ng-switch on="edit" class="todo-text">
-        <div ng-switch-when="true">
-            <form id="todo-form" ng-submit="submitForm(this)" name>
-            "updatingForm" >
-                <label for="titleInput">Edit Todo:</label>
-                <textarea ng-blur="uneditTitle()" id="titleInput" ng-model="this.$parent.tempTitle" autofocus
-                          ng-required="true" ng-minlength="5" class="editing-text-area"></textarea>
 
-                <p ng-show="invalid" class="help-block">{{error}}</p>
-            </form>
-        </div>
-        <div ng-switch-default>
-            <div ng-dblclick="editTitle()"> {{item.title}}</div>
-        </div>
+
+    <div class="todo-text">
+        {{item.title}}
     </div>
+
     <div class="todo-action-buttons">
-        <button ng-click="deleteTodo()">Delete</button>
-        <button ng-click="toggleTodoComplete()">Completed</button>
+        <md-button md-ripple-size="full" ng-click="deleteTodo(item)">Delete</md-button>
+        <md-button md-ripple-size="full" ng-click="toggleTodoComplete()">Completed</md-button>
+        <md-button md-ripple-size="full" ng-click="editTitle(item, $event)">Edit</md-button>
     </div>
 </div>
