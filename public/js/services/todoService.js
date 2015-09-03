@@ -1,7 +1,7 @@
 (function() {
     angular.module("TodoApp").factory("todoService", TodoService);
 
-    function TodoService($http, $rootScope){
+    function TodoService($http, $rootScope, methodToAction){
         var service = {
             createTodo : createTodo,
             getTodoList: getTodoList,
@@ -35,8 +35,13 @@
             return data;
         }
 
-        function broadcastError(text, status) {
-            $rootScope.$broadcast("errorResponse", text, status);
+        function broadcastError(text, status, x,req) {
+            var reqAction = methodToAction.convert(req.method);
+
+            var reqOb= req.url.substring(req.url.lastIndexOf("/") + 1);
+            reqOb = reqOb === "todo"? "todos": "todo " + reqOb;
+
+            $rootScope.$broadcast("errorResponse", text, status, reqAction, reqOb);
         }
 
     }
