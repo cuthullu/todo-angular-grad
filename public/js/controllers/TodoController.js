@@ -29,6 +29,9 @@
             deactivate: function (x, y) {
                 y.item.removeClass("dragging");
             },
+            stop: function (event, ui) {
+                todoService.updateOrder(vm.items);
+            }
         };
 
         vm.submitForm = function () {

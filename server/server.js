@@ -113,6 +113,14 @@ module.exports = function(port, persisting, middleware, callback) {
         }
     });
 
+    app.put("/api/order", function(req, res) {
+        var updates = req.body;
+        updates.forEach(function(update){
+            todos[update.index] = update.newTodo;
+        });
+        res.sendStatus(200);
+    });
+
     // Get changes
     app.get("/api/changes", function(req, res) {
         var lastActionID = req.query.lastActionID !== undefined ? req.query.lastActionID : 0;

@@ -6,7 +6,8 @@
             createTodo : createTodo,
             getTodoList: getTodoList,
             updateTodo: updateTodo,
-            deleteTodo: deleteTodo
+            deleteTodo: deleteTodo,
+            updateOrder: updateOrder
         };
         var checksum = "notAChecksum";
         var items = [];
@@ -22,6 +23,18 @@
                 title: title
             }).success(pollTodoList).error(broadcastError);
         }
+
+        function updateOrder(newOrder){
+            var updates = [];
+            for(var i = 0; i < newOrder.length; i++){
+                if(newOrder[i] !== items[i]){
+                    updates.push({index: i, oldTodo: items, newTodo: newOrder[i]});
+                }
+            }
+
+            $http.put("/api/order/",updates).error(broadcastError);
+        }
+
 
         function getTodoList(){
             return items;

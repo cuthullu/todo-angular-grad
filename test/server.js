@@ -6,6 +6,7 @@ var checksum = require("checksum");
 var testPort = 52684;
 var baseUrl = "http://localhost:" + testPort;
 var todoListUrl = baseUrl + "/api/todo";
+var orderUrl = baseUrl + "/api/order";
 
 describe("server", function() {
     var serverInstance;
@@ -47,6 +48,28 @@ describe("server", function() {
             request(todoListUrl + "?checksum=" + cs , function(error, response) {
                 assert.equal(response.statusCode, 204);
                 done();
+            });
+        });
+    });
+    describe("reorder todos", function() {
+        it("responds with status code 200", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "This is a TODO item"
+                }
+            }, function(){
+                request.put({
+                    url: orderUrl,
+                    json:[
+                        {
+                            index:0, newTodo: {id:"0", title: "This is a TODO item",isComplete:false}
+                        }
+                    ]
+                },function(error, response) {
+                    assert.equal(response.statusCode, 200);
+                    done();
+                });
             });
         });
     });
