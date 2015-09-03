@@ -1,8 +1,9 @@
 (function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, $rootScope, $filter, $localStorage, $scope, todoService) {
+    function TodoController($http, $rootScope, $mdToast, $filter, $localStorage, $scope, todoService) {
         var vm = this;
+        vm.errors = [];
         var deregisters = [];
         $http.defaults.transformRequest.push(function (config) {
             vm.loading = true;
@@ -22,10 +23,10 @@
 
         vm.sortableOptions = {
             placeholder: "app",
-            activate: function(x,y){
+            activate: function (x, y) {
                 y.item.addClass("dragging");
             },
-            deactivate: function(x,y){
+            deactivate: function (x, y) {
                 y.item.removeClass("dragging");
             }
         };
@@ -46,7 +47,7 @@
             todoService.deleteTodo(todo.id);
         };
 
-        vm.todoCompleteDeleted = function(){
+        vm.todoCompleteDeleted = function () {
             $filter("filter")(vm.items, {isComplete: true}).forEach(vm.todoDeleted);
         };
 
@@ -80,7 +81,9 @@
         }
 
         function handleError(event, text, status) {
-            vm.error = "Failed to do action. Server returned " + status + " - " + text;
+            //vm.errors.push("Failed to do action. Server returned " + status + " - " + text);
+            var error = "Failed to do action. Server returned " + status + " - " + text;
+            $mdToast.show($mdToast.simple().content(error));
         }
 
         function destroyThis() {
