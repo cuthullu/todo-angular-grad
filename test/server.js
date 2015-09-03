@@ -1,6 +1,7 @@
 var server = require("../server/server");
 var request = require("request");
 var assert = require("chai").assert;
+var checksum = require("checksum");
 
 var testPort = 52684;
 var baseUrl = "http://localhost:" + testPort;
@@ -34,7 +35,22 @@ describe("server", function() {
             });
         });
     });
-    describe("abler to persist in file", function() {
+    describe("handle checksum for get todos", function() {
+        it("incorrect checksum response with status code 200", function(done) {
+            request(todoListUrl + "?checksum=incorrectChecksum", function(error, response) {
+                assert.equal(response.statusCode, 200);
+                done();
+            });
+        });
+        it("matching checksums rerpsond with status code 204 ", function(done) {
+            var cs = checksum("[]");
+            request(todoListUrl + "?checksum=" + cs , function(error, response) {
+                assert.equal(response.statusCode, 204);
+                done();
+            });
+        });
+    });
+    describe("able to persist in file", function() {
         it("responds with status code 201", function(done) {
             serverInstance.persist();
             request.post({
