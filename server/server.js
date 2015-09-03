@@ -70,6 +70,7 @@ module.exports = function(port, persisting, middleware, callback) {
     // Read
     app.get("/api/todo", function(req, res) {
         if(req.query.checksum === undefined || req.query.checksum !== todosChecksum){
+            res.setHeader("checksum", todosChecksum);
             res.json(todos);
         }else{
             res.sendStatus(204);

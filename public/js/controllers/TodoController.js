@@ -1,7 +1,7 @@
 (function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, $rootScope, $mdToast, $filter, $localStorage, $scope, todoService) {
+    function TodoController($http, $rootScope, $mdToast, $filter, $scope, todoService) {
         var vm = this;
         var deregisters = [];
         $http.defaults.transformRequest.push(function (config) {
@@ -20,6 +20,7 @@
         vm.loading = false;
         vm.items = [];
 
+
         vm.sortableOptions = {
             placeholder: "app",
             activate: function (x, y) {
@@ -27,7 +28,7 @@
             },
             deactivate: function (x, y) {
                 y.item.removeClass("dragging");
-            }
+            },
         };
 
         vm.submitForm = function () {
@@ -50,36 +51,27 @@
             $filter("filter")(vm.items, {isComplete: true}).forEach(vm.todoDeleted);
         };
 
-        function getTodoList() {
-            if ($localStorage.items !== undefined) {
-                vm.items = $localStorage.items;
-            }
-            reloadTodoList();
-        }
-
         function reloadTodoList() {
-            todoService.getTodoList().success(function (data) {
-                data.forEach(function (newTodo) {
-                    if ($filter("filter")(vm.items, newTodo).length > 0) {
-                        //   do nothing, it there and it matches
-                    } else if ($filter("filter")(vm.items, {id: newTodo.id}).length > 0) {
-                        var oldTodo = $filter("filter")(vm.items, {id: newTodo.id})[0];
-                        var index = vm.items.indexOf(oldTodo);
-                        vm.items[index] = newTodo;
-                    } else {
-                        vm.items.push(newTodo);
-                    }
 
-                });
-                vm.items = vm.items.filter(function (oldTodo) {
-                    return $filter("filter")(data, {id: oldTodo.id}).length > 0;
-                });
+            var data = todoService.getTodoList();
+            data.forEach(function (newTodo) {
+                if ($filter("filter")(vm.items, newTodo).length > 0) {
+                    //   do nothing, it there and it matches
+                } else if ($filter("filter")(vm.items, {id: newTodo.id}).length > 0) {
+                    var oldTodo = $filter("filter")(vm.items, {id: newTodo.id})[0];
+                    var index = vm.items.indexOf(oldTodo);
+                    vm.items[index] = newTodo;
+                } else {
+                    vm.items.push(newTodo);
+                }
 
-                $localStorage.items = vm.items;
+            });
+            vm.items = vm.items.filter(function (oldTodo) {
+                return $filter("filter")(data, {id: oldTodo.id}).length > 0;
             });
         }
 
-        function handleError(event, errorText, errorStatus, requestAction, requestOb ) {
+        function handleError(event, errorText, errorStatus, requestAction, requestOb) {
             vm.error = "Failed to " + requestAction + " " + requestOb + ". Server returned " + errorStatus + " - " + errorText;
             $mdToast.show($mdToast.simple().content(vm.error));
         }
@@ -96,6 +88,5 @@
             vm.items[index] = obj;
             vm.items[otherIndex] = otherObj;
         };
-        getTodoList();
     }
 })();
