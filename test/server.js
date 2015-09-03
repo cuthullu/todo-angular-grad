@@ -34,6 +34,20 @@ describe("server", function() {
             });
         });
     });
+    describe("abler to persist in file", function() {
+        it("responds with status code 201", function(done) {
+            serverInstance.persist();
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "This is a TODO item"
+                }
+            }, function(error, response) {
+                assert.equal(response.statusCode, 201);
+                done();
+            });
+        });
+    });
     describe("get list of actions", function() {
         var todoChangesUrl =  baseUrl + "/api/changes";
         it("responds with status code 200", function(done) {

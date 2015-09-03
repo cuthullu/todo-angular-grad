@@ -20,7 +20,7 @@ module.exports.setupServer = function() {
             res.send(instrumenter.instrumentSync(fs.readFileSync("public/main.js", "utf8"), absPath));
         });
     }
-    var serverInstance = server(testPort, router);
+    var serverInstance = server(testPort,false, router);
     var driver = new webdriver.Builder().forBrowser("chrome").build();
     return {router: router, server: serverInstance, driver: driver};
 };
@@ -82,3 +82,8 @@ module.exports.setupErrorRoute = function(server, action, route) {
         });
     }
 };
+
+module.exports.turnOnPersistance = function() {
+    server.server.persist();
+};
+
