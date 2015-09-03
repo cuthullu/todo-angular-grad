@@ -3,7 +3,6 @@
 
     function TodoController($http, $rootScope, $mdToast, $filter, $localStorage, $scope, todoService) {
         var vm = this;
-        vm.errors = [];
         var deregisters = [];
         $http.defaults.transformRequest.push(function (config) {
             vm.loading = true;
@@ -80,10 +79,9 @@
             });
         }
 
-        function handleError(event, text, status) {
-            //vm.errors.push("Failed to do action. Server returned " + status + " - " + text);
-            var error = "Failed to do action. Server returned " + status + " - " + text;
-            $mdToast.show($mdToast.simple().content(error));
+        function handleError(event, errorText, errorStatus, requestAction, requestOb ) {
+            vm.error = "Failed to " + requestAction + " " + requestOb + ". Server returned " + errorStatus + " - " + errorText;
+            $mdToast.show($mdToast.simple().content(vm.error));
         }
 
         function destroyThis() {
