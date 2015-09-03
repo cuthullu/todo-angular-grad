@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require("underscore");
+var fs = require("fs");
 
 module.exports = function(port, middleware, callback) {
     var actionHistory = [];
@@ -13,8 +14,9 @@ module.exports = function(port, middleware, callback) {
     app.use(express.static("public"));
     app.use(bodyParser.json());
 
-    var latestId = 0;
-    var todos = [];
+    var todos = require("./db/db.json");
+    var latestId = todos.length > 0 ? todos[todos.length-1].id + 1 : 0;
+
     function Action(action, data) {
         this.id = commandNum++;
         this.action = action;
@@ -22,6 +24,15 @@ module.exports = function(port, middleware, callback) {
         this.logAction = function() {
             actionHistory.push(this);
         };
+    }
+
+    function persit(){
+        fs.writeFile("./server/db/db.json", JSON.stringify(todos), function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("Todos Saved");
+        });
     }
 
     // Create
@@ -32,6 +43,7 @@ module.exports = function(port, middleware, callback) {
         latestId++;
         todos.push(todo);
         new Action("create", todo).logAction();
+        persit();
         res.set("Location", "/api/todo/" + todo.id);
         res.sendStatus(201);
     });
@@ -61,6 +73,7 @@ module.exports = function(port, middleware, callback) {
                 return otherTodo !== todo;
             });
             new Action("delete", {id: id}).logAction();
+            persit();
             res.sendStatus(200);
         } else {
             res.sendStatus(404);
@@ -76,6 +89,7 @@ module.exports = function(port, middleware, callback) {
                 todo.title = req.body.title;
                 todo.isComplete = req.body.isComplete;
                 new Action("update", todo).logAction();
+                persit();
                 res.sendStatus(200);
             } else {
                 res.set("responseText", "Invalid or incomplete TODO object");
