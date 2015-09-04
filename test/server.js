@@ -1,10 +1,12 @@
 var server = require("../server/server");
 var request = require("request");
 var assert = require("chai").assert;
+var checksum = require("checksum");
 
 var testPort = 52684;
 var baseUrl = "http://localhost:" + testPort;
 var todoListUrl = baseUrl + "/api/todo";
+var orderUrl = baseUrl + "/api/order";
 
 describe("server", function() {
     var serverInstance;
@@ -30,6 +32,57 @@ describe("server", function() {
         it("responds with a body that is a JSON empty array", function(done) {
             request(todoListUrl, function(error, response, body) {
                 assert.equal(body, "[]");
+                done();
+            });
+        });
+    });
+    describe("handle checksum for get todos", function() {
+        it("incorrect checksum response with status code 200", function(done) {
+            request(todoListUrl + "?checksum=incorrectChecksum", function(error, response) {
+                assert.equal(response.statusCode, 200);
+                done();
+            });
+        });
+        it("matching checksums rerpsond with status code 204 ", function(done) {
+            var cs = checksum("[]");
+            request(todoListUrl + "?checksum=" + cs , function(error, response) {
+                assert.equal(response.statusCode, 204);
+                done();
+            });
+        });
+    });
+    describe("reorder todos", function() {
+        it("responds with status code 200", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "This is a TODO item"
+                }
+            }, function(){
+                request.put({
+                    url: orderUrl,
+                    json:[
+                        {
+                            index:0, newTodo: {id:"0", title: "This is a TODO item",isComplete:false}
+                        }
+                    ]
+                },function(error, response) {
+                    assert.equal(response.statusCode, 200);
+                    done();
+                });
+            });
+        });
+    });
+    describe("able to persist in file", function() {
+        it("responds with status code 201", function(done) {
+            serverInstance.persist();
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "This is a TODO item"
+                }
+            }, function(error, response) {
+                assert.equal(response.statusCode, 201);
                 done();
             });
         });

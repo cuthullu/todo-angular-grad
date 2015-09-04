@@ -1,11 +1,15 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require("underscore");
+var fs = require("fs");
+var checksum = require("checksum");
 
-module.exports = function(port, middleware, callback) {
+module.exports = function(port, persisting, middleware, callback) {
     var actionHistory = [];
     var commandNum = 0;
     var app = express();
+    var todos = [];
+    var todosChecksum = checksum(JSON.stringify(todos));
 
     if (middleware) {
         app.use(middleware);
@@ -13,8 +17,15 @@ module.exports = function(port, middleware, callback) {
     app.use(express.static("public"));
     app.use(bodyParser.json());
 
+
     var latestId = 0;
-    var todos = [];
+    function loadData(){
+        todos = persisting? require("./db/db.json"): [];
+        todosChecksum = checksum(JSON.stringify(todos));
+        latestId = todos.length > 0 ? parseInt(todos[todos.length-1].id) + 1 : 0;
+    }
+    loadData();
+
     function Action(action, data) {
         this.id = commandNum++;
         this.action = action;
@@ -22,6 +33,14 @@ module.exports = function(port, middleware, callback) {
         this.logAction = function() {
             actionHistory.push(this);
         };
+    }
+
+    function handleDataChange(){
+        if(persisting) {
+            fs.writeFile("./server/db/db.json", JSON.stringify(todos));
+        }
+
+        todosChecksum = checksum(JSON.stringify(todos));
     }
 
     // Create
@@ -32,6 +51,7 @@ module.exports = function(port, middleware, callback) {
         latestId++;
         todos.push(todo);
         new Action("create", todo).logAction();
+        handleDataChange();
         res.set("Location", "/api/todo/" + todo.id);
         res.sendStatus(201);
     });
@@ -49,7 +69,12 @@ module.exports = function(port, middleware, callback) {
 
     // Read
     app.get("/api/todo", function(req, res) {
-        res.json(todos);
+        if(req.query.checksum === undefined || req.query.checksum !== todosChecksum){
+            res.setHeader("checksum", todosChecksum);
+            res.json(todos);
+        }else{
+            res.sendStatus(204);
+        }
     });
 
     // Delete
@@ -61,6 +86,7 @@ module.exports = function(port, middleware, callback) {
                 return otherTodo !== todo;
             });
             new Action("delete", {id: id}).logAction();
+            handleDataChange();
             res.sendStatus(200);
         } else {
             res.sendStatus(404);
@@ -76,6 +102,7 @@ module.exports = function(port, middleware, callback) {
                 todo.title = req.body.title;
                 todo.isComplete = req.body.isComplete;
                 new Action("update", todo).logAction();
+                handleDataChange();
                 res.sendStatus(200);
             } else {
                 res.set("responseText", "Invalid or incomplete TODO object");
@@ -84,6 +111,15 @@ module.exports = function(port, middleware, callback) {
         } else {
             res.sendStatus(404);
         }
+    });
+
+    app.put("/api/order", function(req, res) {
+        var updates = req.body;
+        updates.forEach(function(update){
+            todos[update.index] = update.newTodo;
+        });
+        handleDataChange();
+        res.sendStatus(200);
     });
 
     // Get changes
@@ -113,6 +149,11 @@ module.exports = function(port, middleware, callback) {
                 connection.destroy();
             });
             server.close(callback);
+        },
+        persist: function(){
+            persisting = true;
+            loadData();
+
         }
     };
 };
