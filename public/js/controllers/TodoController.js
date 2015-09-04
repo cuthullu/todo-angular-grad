@@ -29,7 +29,7 @@
             deactivate: function (x, y) {
                 y.item.removeClass("dragging");
             },
-            stop: function (event, ui) {
+            stop: function () {
                 todoService.updateOrder(vm.items);
             }
         };
@@ -55,23 +55,7 @@
         };
 
         function reloadTodoList() {
-
-            var data = todoService.getTodoList();
-            data.forEach(function (newTodo) {
-                if ($filter("filter")(vm.items, newTodo).length > 0) {
-                    //   do nothing, it there and it matches
-                } else if ($filter("filter")(vm.items, {id: newTodo.id}).length > 0) {
-                    var oldTodo = $filter("filter")(vm.items, {id: newTodo.id})[0];
-                    var index = vm.items.indexOf(oldTodo);
-                    vm.items[index] = newTodo;
-                } else {
-                    vm.items.push(newTodo);
-                }
-
-            });
-            vm.items = vm.items.filter(function (oldTodo) {
-                return $filter("filter")(data, {id: oldTodo.id}).length > 0;
-            });
+            vm.items = todoService.getTodoList().slice();
         }
 
         function handleError(event, errorText, errorStatus, requestAction, requestOb) {
@@ -84,12 +68,5 @@
                 eventDereg();
             });
         }
-
-        vm.onDropComplete = function (index, obj) {
-            var otherObj = vm.items[index];
-            var otherIndex = vm.items.indexOf(obj);
-            vm.items[index] = obj;
-            vm.items[otherIndex] = otherObj;
-        };
     }
 })();

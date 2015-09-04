@@ -118,6 +118,7 @@ module.exports = function(port, persisting, middleware, callback) {
         updates.forEach(function(update){
             todos[update.index] = update.newTodo;
         });
+        handleDataChange();
         res.sendStatus(200);
     });
 
