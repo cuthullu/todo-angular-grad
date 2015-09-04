@@ -3,6 +3,7 @@
   "eqeqeq": true,
   "immed": true,
   "quotmark": "double",
-  "undef": true,
-  "node": true
+  "undef": false,
+  "node": true,
+  "predef": [ "angular" ]
 }

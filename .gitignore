@@ -1,3 +1,8 @@
 node_modules/
 test_output/
 build_artifacts/
+public/main.css
+public/main.css.map
+public/css/main.css
+public/css/main.css.map
+.idea/**
