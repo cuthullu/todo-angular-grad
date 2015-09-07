@@ -86,23 +86,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        sass: {
-            options: {
-                sourceMap: true
-            },
-            dist: {
-                files: {
-                    "public/css/main.css": "sass/main.scss"
-                }
-            }
-        },
-        watch: {
-            css: {
-                files: "sass/*.scss",
-                tasks: ["sassy"]
-            }
-        }
-
     });
 
     grunt.registerMultiTask("istanbul_report", "Solo task for generating a report over multiple files.", function () {
@@ -129,8 +112,6 @@ module.exports = function(grunt) {
     grunt.registerTask("ci-test", ["check", "mochaTest:ci", "mocha_istanbul:ci", "istanbul_report",
     "istanbul_check_coverage"]);
     grunt.registerTask("default", "nodemon");
-    grunt.registerTask("watchsass", ["watch"]);
-    grunt.registerTask("sassy", ["sass"]);
 
     grunt.registerTask("serve", "Start a custom web server.", function() {
         var done = this.async();

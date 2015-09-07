@@ -23,10 +23,6 @@
   opacity: 0.5;
 }
 
-.dragging{
-  @extend .z-depth-5;
-}
-
 @media screen and (max-width: 750px) {
   body > h1 {
     font-size: 3rem;
@@ -74,12 +70,12 @@ todo-item {
   height: inherit;
 }
 .ie-icon{
-   background:url(/icons/IE.png) left top;
-   width:64px;
-   height:64px;
-   display: block;
-   float: left;
- }
+  background:url(/icons/IE.png) left top;
+  width:64px;
+  height:64px;
+  display: block;
+  float: left;
+}
 
 .gb-icon{
   background:url(/icons/GB.png) left top;
