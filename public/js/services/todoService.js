@@ -28,7 +28,7 @@
             var updates = [];
             for(var i = 0; i < newOrder.length; i++){
                 if(newOrder[i] !== items[i]){
-                    updates.push({index: i, oldTodo: items, newTodo: newOrder[i]});
+                    updates.push({index: i, newTodo: newOrder[i]});
                 }
             }
 
@@ -41,7 +41,7 @@
         }
 
         function pollTodoList() {
-            return $http.get("/api/todo?checksum=" + checksum).success(function (data,status, headers) {
+            return $http.get("/api/todo?checksum=" + checksum).success(function (data, status, headers) {
                 if(status === 200){
                     items = data;
                     checksum = headers("checksum");

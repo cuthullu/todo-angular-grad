@@ -1,7 +1,7 @@
 (function () {
     angular.module("TodoApp").directive("todoItem", todoItem);
 
-    function todoItem(customYesNoModal) {
+    function todoItem(customConfirmCancelModal) {
         var directive = {
             scope: {
                 onUpdate: "=",
@@ -25,7 +25,7 @@
             };
 
             scope.editTitle = function (item, $event) {
-                customYesNoModal(item, "js/directives/editModal.html", "EditModelController", $event)
+                customConfirmCancelModal(item, "js/directives/editModal.html", "EditModelController", $event)
                     .then(scope.onUpdate);
             };
         }

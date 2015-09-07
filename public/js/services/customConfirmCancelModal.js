@@ -1,7 +1,7 @@
 (function () {
-    angular.module("TodoApp").factory("customYesNoModal", customYesNoModal);
+    angular.module("TodoApp").factory("customConfirmCancelModal", customConfirmCancelModal);
 
-    function customYesNoModal($mdDialog) {
+    function customConfirmCancelModal($mdDialog) {
         return function (item, templateUrl, controller, $event) {
             return $mdDialog.show({
                 targetEvent: $event,

@@ -1,9 +1,12 @@
 (function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, $rootScope, $mdSidenav,$mdToast, $filter, $scope, todoService) {
+    function TodoController($http, $rootScope, $mdSidenav, $mdToast, $filter, $scope, todoService) {
         var vm = this;
         var deregisters = [];
+        vm.loading = false;
+        vm.items = [];
+
         $http.defaults.transformRequest.push(function (config) {
             vm.loading = true;
             return config;
@@ -16,10 +19,6 @@
         deregisters.push($rootScope.$on("todosChanged", reloadTodoList));
         deregisters.push($rootScope.$on("errorResponse", handleError));
         $scope.$on("$destroy", destroyThis);
-
-        vm.loading = false;
-        vm.items = [];
-
 
         vm.sortableOptions = {
             placeholder: "app",
@@ -35,18 +34,12 @@
         };
 
         vm.submitForm = function () {
-            /** @namespace vm.newTodoForm */
             if (vm.newTodoForm.$valid) {
                 todoService.createTodo(vm.newTodo);
                 vm.newTodo = "";
             }
         };
-        $scope.toggleLeft = function() {
-            $mdSidenav("left").toggle()
-                .then(function(){
-                    $log.debug("toggle left is done");
-                });
-        };
+
         vm.todoUpdated = function (todo) {
             todoService.updateTodo(todo);
         };
@@ -69,9 +62,7 @@
         }
 
         function destroyThis() {
-            deregisters.forEach(function (eventDereg) {
-                eventDereg();
-            });
+            deregisters.forEach(eventDereg);
         }
     }
 })();
