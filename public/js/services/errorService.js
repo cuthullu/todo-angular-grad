@@ -17,15 +17,10 @@
             }
         }
 
-        function broadcastError(text, status, x,req) {
+        function broadcastError(text, status, x, req) {
             var reqAction = convert(req.method);
 
-            var reqOb;
-            if(req.url.indexOf("?") > 0){
-                reqOb = req.url.substring(req.url.lastIndexOf("/") + 1,req.url.indexOf("?"));
-            }else{
-                reqOb = req.url.substring(req.url.lastIndexOf("/") + 1);
-            }
+            var reqOb = req.url.split("/").pop().split("?")[0];
 
             reqOb = reqOb === "todo"? "todos": "todo " + reqOb;
 
