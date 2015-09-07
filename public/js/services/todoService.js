@@ -1,7 +1,7 @@
 (function() {
     angular.module("TodoApp").factory("todoService", TodoService);
 
-    function TodoService($http, $rootScope, $interval, $localStorage, methodToAction){
+    function TodoService($http, $rootScope, $interval, methodToAction){
         var service = {
             createTodo : createTodo,
             getTodoList: getTodoList,
@@ -45,8 +45,6 @@
                 if(status === 200){
                     items = data;
                     checksum = headers("checksum");
-                    $localStorage.items = items;
-                    $localStorage.checksum = checksum;
                     broadcastChange(items);
                 }
             }).error(broadcastError);
