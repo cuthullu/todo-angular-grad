@@ -94,9 +94,8 @@ module.exports = function(port, persisting, middleware, callback) {
     });
 
     // Update
-    app.put("/api/todo/:id", function(req, res) {
-        var id  = req.params.id;
-        var todo = getTodo(id);
+    app.put("/api/todo", function(req, res) {
+        var todo = getTodo(req.body.id);
         if (todo) {
             if (req.body.title !== undefined &&  req.body.isComplete !== undefined) {
                 todo.title = req.body.title;

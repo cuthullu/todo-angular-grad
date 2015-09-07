@@ -191,7 +191,7 @@ describe("server", function() {
     });
     describe("update a todo", function() {
         it("responds with status code 404 if there is no such item", function(done) {
-            request.put(todoListUrl + "/0", function(error, response) {
+            request.put(todoListUrl, function(error, response) {
                 assert.equal(response.statusCode, 404);
                 done();
             });
@@ -204,8 +204,9 @@ describe("server", function() {
                 }
             }, function() {
                 request.put({
-                    url: todoListUrl + "/0",
+                    url: todoListUrl,
                     json: {
+                        id: "0",
                         title: "This is an updated TODO item",
                         isComplete: true
                     }
@@ -230,8 +231,8 @@ describe("server", function() {
                 }
             }, function() {
                 request.put({
-                    url: todoListUrl + "/0",
-                    json: {}
+                    url: todoListUrl,
+                    json: {id: "0"}
                 }, function(error, response) {
                     assert.equal(response.statusCode, 400);
                     done();

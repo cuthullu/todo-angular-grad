@@ -51,7 +51,7 @@
         }
 
         function updateTodo(todo) {
-            return $http.put("/api/todo/" + todo.id, todo).success(pollTodoList).error(errorService.broadcast);
+            return $http.put("/api/todo" , todo).success(pollTodoList).error(errorService.broadcast);
         }
 
         function deleteTodo(todoId) {
