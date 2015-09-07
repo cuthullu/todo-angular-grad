@@ -1,7 +1,7 @@
 (function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, $rootScope, $mdToast, $filter, $scope, todoService) {
+    function TodoController($http, $rootScope, $mdSidenav,$mdToast, $filter, $scope, todoService) {
         var vm = this;
         var deregisters = [];
         $http.defaults.transformRequest.push(function (config) {
@@ -41,7 +41,12 @@
                 vm.newTodo = "";
             }
         };
-
+        $scope.toggleLeft = function() {
+            $mdSidenav("left").toggle()
+                .then(function(){
+                    $log.debug("toggle left is done");
+                });
+        };
         vm.todoUpdated = function (todo) {
             todoService.updateTodo(todo);
         };

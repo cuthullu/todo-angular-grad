@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>TODO List</title>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <!--<link href="css/bootstrap.css" rel="stylesheet" type="text/css">-->
     <link rel="icon" type="image/ico" href="favicon.ico">
-    <link href="css/main.css" rel="stylesheet" type="text/css">
     <link href="css/ng-sortable.style.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="js/vendor/jquery.js"></script>
@@ -13,54 +12,71 @@
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
-<body ng-module="todoApp">
-<header>
+
+<body ng-module="todoApp" md-theme="{{ dynamicTheme }}">
+<md-content class="inherit-height">
+<md-toolbar md-scroll-shrink="false">
+    <div class="md-toolbar-tools">
     <h1>TODO List</h1>
-</header>
-<div class="main" ng-controller="TodoController as vm">
-    <div class="filter">
-        <label>
-            Filter
-            <select ng-model="myFilter.isComplete" class="browser-default ">
-                <option value="">All</option>
-                <option value="true">Completed</option>
-                <option value="false">Outstanding</option>
-            </select>
-        </label>
+    <span flex=""></span>
+    <div>
+        <md-button ng-click="dynamicTheme = 'irl'"><span class="ie-icon" aria-label="Ireland "></span></md-button>
+        <md-button ng-click="dynamicTheme = 'gb'"><span class="gb-icon" aria-label="UK"></span></md-button>
     </div>
-    <div class="delete-completed">
-        <input type="button" class="btn" ng-click="vm.todoCompleteDeleted()" value="Delete Completed">
     </div>
-    <section>
+</md-toolbar>
+<div layout="row" class="" ng-controller="TodoController as vm">
+    <md-sidenav layout="coloumn" md-is-locked-open="{{true}}" >
+        <md-toolbar>
+            <p>You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do</p>
+        </md-toolbar>
+        <md-content>
+            <md-input-container>
+                <md-select ng-model="myFilter.isComplete" placeholder="Filter Todos" class="md-accent">
+                    <md-option value="">All</md-option>
+                    <md-option value="true">Completed</md-option>
+                    <md-option value="false">Outstanding</md-option>
+                </md-select>
+            </md-input-container>
+
+
+            <form id="todo-form" ng-submit="vm.submitForm()" name="vm.newTodoForm">
+                <md-input-container class="md-accent">
+                    <input type="text" id="new-todo" name="title" placeholder="What needs to be done?"
+                           ng-required="true"
+                           ng-minlength="1" ng-model="vm.newTodo" class="md-accent">
+
+                    <p ng-show="vm.newTodoForm.title.$error.minlength" class="help-block">Title is too short.</p>
+                </md-input-container>
+                <md-input-container>
+                    <md-button id="submit-todo" class="md-primary md-raised" type="submit" value="Create"
+                               ng-disabled="vm.newTodoForm.$invalid" aria-label="Submit">Create
+                    </md-button>
+                </md-input-container>
+            </form>
+            <md-input-container>
+                <md-button class="md-raised md-warn" ng-click="vm.todoCompleteDeleted()">Delete Completed</md-button>
+            </md-input-container>
+        </md-content>
+    </md-sidenav>
+    <md-content class="content">
+
         <h2 id="todo-list-placeholder" ng-show="loading">Loading...</h2>
 
-
         <div ui-sortable="vm.sortableOptions" ng-model="vm.items" class="todoContainer" id="todo-list">
-            <md-card ng-repeat="item in vm.items  | filter:myFilter" class="todoItemContainer">
+            <md-card ng-repeat="item in vm.items  | filter:myFilter" class="todoItemContainer md-hue-1">
                 <todo-item item="item" on-delete="vm.todoDeleted" on-update="vm.todoUpdated"></todo-item>
             </md-card>
         </div>
-
-        <form id="todo-form" ng-submit="vm.submitForm()" name="vm.newTodoForm">
-            <input id="new-todo" name="title" placeholder="What needs to be done?" autofocus ng-required="true"
-                   ng-minlength="1" ng-model="vm.newTodo">
-
-            <p ng-show="vm.newTodoForm.title.$error.minlength" class="help-block">Title is too short.</p>
-            <input id="submit-todo" class="btn btn-primary" type="submit" value="Create"
-                   ng-disabled="vm.newTodoForm.$invalid">
-        </form>
-        <div class="todosLeft">
-            You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do
-        </div>
-        <br/>
-
-        <div id="error">{{vm.error}}</div>
-    </section>
+    </md-content>
+    <div id="error">{{vm.error}}</div>
 </div>
 
 <!--External Modules-->
-<script src="js/vendor/bootstrap.min.js"></script>
+<!--<script src="js/vendor/bootstrap.min.js"></script>-->
 
 
 <!-- Angular Material Dependencies -->
@@ -90,6 +106,8 @@
 <!-- Directives -->
 <script src="js/directives/todoItem.js"></script>
 
+<!--Configs-->
 
+</md-content>
 </body>
 </html>

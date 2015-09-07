@@ -1,40 +1,14 @@
-@import "materialize";
-
-body {
-  background: #E8F5E9;
-  color: rgba(0, 0, 0, 0.87);
-  font-family: sans-serif;
-  margin: 0;
-}
-
-header {
-  background-color: #4CAF50;
-  padding: 0.5em 1em;
-}
-
-section,
-h1 {
-  max-width: 1170px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-h1 {
-  display: block;
-  font-size: 34px;
-  line-height: 34px;
-  color: rgba(255, 255, 255, 0.87);
-}
 
 .complete {
   text-decoration: line-through;
+  opacity: 0.5;
+
 }
 
 .todoContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /*justify-content:space-between;*/
 }
 
 .todoItemContainer{
@@ -45,7 +19,8 @@ h1 {
 .app{
   height: 300px;
   width: 270px;
-  background-color: #000088;
+  border: dashed;
+  opacity: 0.5;
 }
 
 .dragging{
@@ -71,20 +46,45 @@ h1 {
 
 .todo {
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
   height: inherit;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 todo-item {
   height: inherit;
 }
 
-.todo-action-buttons {
-  /*align-self:flex-end;*/
-}
 
 .todo-text {
   text-wrap: normal;
+  padding-top: 20px;
+  flex:1;
+}
+
+.material-icons{
+  line-height: 36px;
+}
+
+.no-transition {
+  transition: none !important;
+}
+.inherit-height{
+  height: inherit;
+}
+.ie-icon{
+   background:url(/icons/IE.png) left top;
+   width:64px;
+   height:64px;
+   display: block;
+   float: left;
+ }
+
+.gb-icon{
+  background:url(/icons/GB.png) left top;
+  width:64px;
+  height:64px;
+  display: block;
+  float: left;
 }

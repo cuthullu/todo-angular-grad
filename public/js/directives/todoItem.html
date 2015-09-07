@@ -1,13 +1,14 @@
-<div ng-class="{ 'complete' : item.isComplete}" class="todo">
+<div ng-class="{ 'complete' : item.isComplete}"  class="todo">
 
 
     <div class="todo-text">
         {{item.title}}
     </div>
 
-    <div class="todo-action-buttons">
-        <md-button md-ripple-size="full" ng-click="deleteTodo(item)">Delete</md-button>
-        <md-button md-ripple-size="full" ng-click="toggleTodoComplete()">Completed</md-button>
-        <md-button md-ripple-size="full" ng-click="editTitle(item, $event)">Edit</md-button>
+
+    <div layout="row" >
+        <md-button class="md-fab md-mini no-transition md-raised md-primary" ng-click="toggleTodoComplete()"> <i class="material-icons">done</i></md-button>
+        <md-button class="md-fab md-mini no-transition md-raised md-accent" smd-ripple-size="full" ng-click="editTitle(item, $event)"><i class="material-icons">edit</i></md-button>
+        <md-button class="md-fab md-mini no-transition md-raised md-warn " smd-ripple-size="full" ng-click="deleteTodo(item)"><i class="material-icons">delete</i></md-button>
     </div>
 </div>
