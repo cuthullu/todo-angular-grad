@@ -1,6 +1,7 @@
 
 .complete {
   text-decoration: line-through;
+  opacity: 0.5;
 
 }
 
@@ -8,7 +9,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /*justify-content:space-between;*/
 }
 
 .todoItemContainer{
@@ -19,7 +19,8 @@
 .app{
   height: 300px;
   width: 270px;
-  background-color: #000088;
+  border: dashed;
+  opacity: 0.5;
 }
 
 .dragging{
@@ -71,4 +72,19 @@ todo-item {
 }
 .inherit-height{
   height: inherit;
+}
+.ie-icon{
+   background:url(/icons/IE.png) left top;
+   width:64px;
+   height:64px;
+   display: block;
+   float: left;
+ }
+
+.gb-icon{
+  background:url(/icons/GB.png) left top;
+  width:64px;
+  height:64px;
+  display: block;
+  float: left;
 }

@@ -42,7 +42,7 @@
             }
         };
         $scope.toggleLeft = function() {
-            $mdSidenav('left').toggle()
+            $mdSidenav("left").toggle()
                 .then(function(){
                     $log.debug("toggle left is done");
                 });
