@@ -1,7 +1,7 @@
 (function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, $rootScope, $mdSidenav, $mdToast, $filter, $scope, todoService) {
+    function TodoController($http, $rootScope, $mdToast, $filter, $scope, todoService) {
         var vm = this;
         var deregisters = [];
         vm.loading = false;
@@ -53,7 +53,7 @@
         };
 
         function reloadTodoList() {
-            vm.items = todoService.getTodoList().slice();
+            vm.items = todoService.getTodoList();
         }
 
         function handleError(event, errorText, errorStatus, requestAction, requestOb) {

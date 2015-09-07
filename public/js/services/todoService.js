@@ -37,7 +37,7 @@
 
 
         function getTodoList(){
-            return items;
+            return items.slice();
         }
 
         function pollTodoList() {
