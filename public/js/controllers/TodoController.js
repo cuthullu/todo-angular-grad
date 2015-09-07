@@ -1,11 +1,14 @@
 (function () {
     angular.module("TodoApp").controller("TodoController", TodoController);
 
-    function TodoController($http, $rootScope, $mdToast, $filter, $scope, todoService) {
+    function TodoController($http, $rootScope, $mdToast, $filter, $scope, todoService, $localStorage) {
         var vm = this;
         var deregisters = [];
         vm.loading = false;
         vm.items = [];
+        vm.$storage = $localStorage.$default({
+            culture: "ie"
+        });
 
         $http.defaults.transformRequest.push(function (config) {
             vm.loading = true;

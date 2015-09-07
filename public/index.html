@@ -16,19 +16,19 @@
     <link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
 
-<body ng-module="todoApp" md-theme="{{ dynamicTheme }}">
+<body ng-controller="TodoController as vm" ng-module="todoApp" md-theme="{{ vm.$storage.culture   }}">
 <md-content class="inherit-height">
 <md-toolbar md-scroll-shrink="false">
     <div class="md-toolbar-tools">
     <h1>TODO List</h1>
     <span flex=""></span>
     <div>
-        <md-button ng-click="dynamicTheme = 'irl'"><span class="ie-icon" aria-label="Ireland "></span></md-button>
-        <md-button ng-click="dynamicTheme = 'gb'"><span class="gb-icon" aria-label="UK"></span></md-button>
+        <md-button ng-click="vm.$storage.culture = 'ie'"><span class="ie-icon" aria-label="Ireland "></span></md-button>
+        <md-button ng-click="vm.$storage.culture = 'gb'"><span class="gb-icon" aria-label="UK"></span></md-button>
     </div>
     </div>
 </md-toolbar>
-<div layout="row" class="" ng-controller="TodoController as vm">
+<div layout="row" class="" >
     <md-sidenav layout="coloumn" md-is-locked-open="{{true}}" >
         <md-toolbar>
             <p>You have {{ (vm.items | filter:{isComplete : false}).length | number }} Todos left to do</p>
