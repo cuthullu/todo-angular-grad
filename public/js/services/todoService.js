@@ -1,7 +1,7 @@
 (function() {
     angular.module("TodoApp").factory("todoService", TodoService);
 
-    function TodoService($http, $rootScope, $interval, methodToAction){
+    function TodoService($http, $rootScope, $interval, errorService){
         var service = {
             createTodo : createTodo,
             getTodoList: getTodoList,
@@ -21,7 +21,7 @@
         function createTodo(title) {
             return $http.post("/api/todo", {
                 title: title
-            }).success(pollTodoList).error(broadcastError);
+            }).success(pollTodoList).error(errorService.broadcast);
         }
 
         function updateOrder(newOrder){
@@ -32,7 +32,7 @@
                 }
             }
 
-            $http.put("/api/order/",updates).error(broadcastError);
+            $http.put("/api/order/",updates).error(errorService.broadcast);
         }
 
 
@@ -47,35 +47,20 @@
                     checksum = headers("checksum");
                     broadcastChange(items);
                 }
-            }).error(broadcastError);
+            }).error(errorService.broadcast);
         }
 
         function updateTodo(todo) {
-            return $http.put("/api/todo/" + todo.id, todo).success(pollTodoList).error(broadcastError);
+            return $http.put("/api/todo/" + todo.id, todo).success(pollTodoList).error(errorService.broadcast);
         }
 
         function deleteTodo(todoId) {
-            return $http.delete("/api/todo/" + todoId).success(pollTodoList).error(broadcastError);
+            return $http.delete("/api/todo/" + todoId).success(pollTodoList).error(errorService.broadcast);
         }
 
         function broadcastChange(data) {
             $rootScope.$broadcast("todosChanged");
             return data;
-        }
-
-        function broadcastError(text, status, x,req) {
-            var reqAction = methodToAction.convert(req.method);
-
-            var reqOb;
-            if(req.url.indexOf("?") > 0){
-                reqOb = req.url.substring(req.url.lastIndexOf("/") + 1,req.url.indexOf("?"));
-            }else{
-                reqOb = req.url.substring(req.url.lastIndexOf("/") + 1);
-            }
-
-            reqOb = reqOb === "todo"? "todos": "todo " + reqOb;
-
-            $rootScope.$broadcast("errorResponse", text, status, reqAction, reqOb);
         }
 
     }
